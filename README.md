@@ -72,15 +72,16 @@
   ENV PYTHONUNBUFFERED=1
   ```
 
-  Dockerイメージのビルド Dockerfileがあるディレクトリに移動して以下を実行します。
+  Dockerイメージのビルド 
 
   ```bash
   cd ~/docker/stock-price-updown-ai/
   docker build -t stock-price-updown-ai .
   ```
 
-コンテナの実行 コンテナを実行してプログラムを動かします。
+  コンテナを実行し、main.pyを実行
 
   ```bash
-  docker run -it stock-price-updown-ai
+  docker run -it stockpriceupdownai /bin/bash
+  python main.py
   ```
