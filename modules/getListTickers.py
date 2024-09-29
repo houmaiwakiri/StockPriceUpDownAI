@@ -31,8 +31,7 @@ def fetch_stock_data(url):
         'Name': name,
         'Sector': sector,
       })
-
-    return stock_data
+  return stock_data
 
 def save_stock_data(stock_data, output_file):
   # データをCSVに保存
@@ -42,7 +41,7 @@ def save_stock_data(stock_data, output_file):
 
 def main():
   # outputディレクトリを作成（存在しない場合）
-  current_dir = Path(__file__).resolve().parent
+  current_dir = Path(__file__).resolve().parent.parent
   output_dir = current_dir / "output"
   output_dir.mkdir(exist_ok=True)
 
