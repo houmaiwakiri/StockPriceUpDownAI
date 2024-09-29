@@ -1,16 +1,16 @@
-# 株価予測 + Sphinx
+# 株価予測
 
 ## 処理(main.py)
 
 ### 日本株の一覧を取得し、CSVにする
 
-getListTickers.py
+- getListTickers.py
 
 ### ヤフーの株APIにリクエストし、日次で株価の情報を取得する
 
-getyfinance.py
+- getyfinance.py
 
-## DockerでPython環境構築 + Sphinx導入
+## DockerでPython環境構築
 
 ### 0. 前提条件
 
@@ -28,9 +28,9 @@ getyfinance.py
   Dockerのインストール
 
   ```bash
-  sudo amazon-linux-extras install docker
-  sudo service docker start
-  sudo usermod -a -G docker $(whoami)
+  sudo dnf install docker
+  sudo systemctl start docker
+  sudo usermod -aG docker $(whoami)
   ```
 
   Dockerが正常に動作しているか確認
@@ -50,7 +50,8 @@ getyfinance.py
   Dockerfile の作成
 
   ```bash
-  vim ~/docker/StockPriceUpDownAI/dockerfile
+  mkdir -p ~/docker/stock-price-updown-ai/
+  vim ~/docker/stock-price-updown-ai/dockerfile
   ```
 
   記述内容
@@ -61,12 +62,12 @@ getyfinance.py
   WORKDIR /app
 
   RUN pip install --upgrade pip
-  RUN pip install yfinance sphinx sphinx-rtd-theme
+  RUN pip install requests beautifulsoup4 pandas yfinance
 
   RUN apt-get update && apt-get install -y git
   RUN git clone https://github.com/houmaiwakiri/StockPriceUpDownAI.git
 
-  WORKDIR /app/StockPriceUpDownAI
+  WORKDIR /app/stock-price-updown-ai
 
   ENV PYTHONUNBUFFERED=1
   ```
@@ -74,33 +75,12 @@ getyfinance.py
   Dockerイメージのビルド Dockerfileがあるディレクトリに移動して以下を実行します。
 
   ```bash
-  cd ~/docker/StockPriceUpDownAI/
-  docker build -t StockPriceUpDownAI .
+  cd ~/docker/stock-price-updown-ai/
+  docker build -t stock-price-updown-ai .
   ```
 
 コンテナの実行 コンテナを実行してプログラムを動かします。
 
   ```bash
-  docker run -it StockPriceUpDownAI
-  ```
-
-### 3. Sphinx ドキュメンテーションの生成
-
-コンテナ内でSphinxの初期設定
-プロンプトに従ってプロジェクト名や著者名を入力
-
-  ```bash
-  sphinx-quickstart
-  ```
-
-設定ファイルの編集 conf.py で必要な設定を行います。例えば、テーマを指定する場合は以下のようにします
-
-  ```bash
-  vim conf.py
-  ```
-
-ドキュメント(.rst) ファイルを作成
-
-  ```bash
-  make html
+  docker run -it stock-price-updown-ai
   ```

@@ -3,6 +3,8 @@ from bs4 import BeautifulSoup
 import pandas as pd
 from pathlib import Path
 
+from modules.utils.dir import create_directory
+
 def fetch_stock_data(url):
   stock_data = []
 
@@ -41,11 +43,9 @@ def save_stock_data(stock_data, output_file):
 
 def main():
   # outputディレクトリを作成（存在しない場合）
-  current_dir = Path(__file__).resolve().parent.parent
-  output_dir = current_dir / "output"
-  output_dir.mkdir(exist_ok=True)
+  output_dir = create_directory("output")
 
-  stock_tickers_file = output_dir / 'japan_stock_tickers.csv'
+  output_file = output_dir / 'japan_stock_tickers.csv'
   url = "https://nikkeiyosoku.com/stock/all/"
 
   # 株データの取得
@@ -53,7 +53,7 @@ def main():
   
   # データを保存する
   if stock_data:
-    save_stock_data(stock_data, stock_tickers_file)
+    save_stock_data(stock_data, output_file)
 
 if __name__ == "__main__":
   main()
