@@ -29,6 +29,12 @@ Docker のインストール
 
 ```bash
 sudo dnf install docker
+sudo dnf install curl --allowerasing
+# 最新のバージョンを取得
+LATEST_VERSION=$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep -oP '"tag_name": "\K(.*)(?=")')
+# ダウンロード
+curl -SL "https://github.com/docker/compose/releases/download/${LATEST_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod 750 /usr/local/bin/docker-compose
 sudo systemctl start docker
 sudo usermod -aG docker $(whoami)
 ```
@@ -50,12 +56,8 @@ sudo systemctl enable docker
 Docker イメージのビルド(main.py が実行される)
 
 ```bash
-cd ~/docker
+cd StockPriceUpDownAI
 docker-compose up --build
 ```
 
-コンテナ接続
-
-```bash
-docker exec -it stock-price-updown-ai /bin/bash
-```
+実行終了後、ホスト側のoutput配下にjapan_stock_data_yyyymmdd.csvが生成される。
