@@ -2,86 +2,60 @@
 
 ## 処理(main.py)
 
-### 日本株の一覧を取得し、CSVにする
+### 日本株の一覧を取得し、CSV にする
 
 - getListTickers.py
 
-### ヤフーの株APIにリクエストし、日次で株価の情報を取得する
+### ヤフーの株 API にリクエストし、日次で株価の情報を取得する
 
 - getyfinance.py
 
-## DockerでPython環境構築
+## Docker で Python 環境構築
 
 ### 0. 前提条件
 
-- Linuxサーバーまたは仮想環境へのアクセスがあること
-- Dockerがインストールされていない場合、以下の手順でインストールを行う。
+- Linux サーバーまたは仮想環境へのアクセスがあること
+- Docker がインストールされていない場合、以下の手順でインストールを行う。
 
 ### 1. Docker のインストール
 
-  Dockerのパッケージをアップデート
+Docker のパッケージをアップデート
 
-  ```bash
-  sudo dnf update -y
-  ```
+```bash
+sudo dnf update -y
+```
 
-  Dockerのインストール
+Docker のインストール
 
-  ```bash
-  sudo dnf install docker
-  sudo systemctl start docker
-  sudo usermod -aG docker $(whoami)
-  ```
+```bash
+sudo dnf install docker
+sudo systemctl start docker
+sudo usermod -aG docker $(whoami)
+```
 
-  Dockerが正常に動作しているか確認
+Docker が正常に動作しているか確認
 
-  ```bash
-  docker --version
-  ```
+```bash
+docker --version
+```
 
-  Dockerを自動起動する設定
+Docker を自動起動する設定
 
-  ```bash
-  sudo systemctl enable docker
-  ```
+```bash
+sudo systemctl enable docker
+```
 
-### 2. Dockerコンテナの構築
+### 2. Docker コンテナの構築
 
-  Dockerfile の作成
+Docker イメージのビルド(main.py が実行される)
 
-  ```bash
-  mkdir -p ~/docker/stock-price-updown-ai/
-  vim ~/docker/stock-price-updown-ai/dockerfile
-  ```
+```bash
+cd ~/docker
+docker-compose up --build
+```
 
-  記述内容
+コンテナ接続
 
-  ```shell
-  FROM python:3.8-slim
-
-  WORKDIR /app
-
-  RUN pip install --upgrade pip
-  RUN pip install requests beautifulsoup4 pandas yfinance
-
-  RUN apt-get update && apt-get install -y git
-  RUN git clone https://github.com/houmaiwakiri/StockPriceUpDownAI.git
-
-  WORKDIR /app/stock-price-updown-ai
-
-  ENV PYTHONUNBUFFERED=1
-  ```
-
-  Dockerイメージのビルド 
-
-  ```bash
-  cd ~/docker/stock-price-updown-ai/
-  docker build -t stock-price-updown-ai .
-  ```
-
-  コンテナを実行し、main.pyを実行
-
-  ```bash
-  docker run -it stockpriceupdownai /bin/bash
-  python main.py
-  ```
+```bash
+docker exec -it stock-price-updown-ai /bin/bash
+```

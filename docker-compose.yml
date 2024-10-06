@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  stock-price-updown-ai:
+    build:
+      context: .
+      dockerfile: $DOCKER_DIR/python/Dockerfile
+    image: python:3.8-slim
+    container_name: stock-price-updown-ai
+    working_dir: /app/stock-price-updown-ai
+    volumes:
+      - ./StockPriceUpDownAI:/app/stock-price-updown-ai
+    environment:
+      PYTHONUNBUFFERED: 1
+    command: python main.py
+    depends_on:
+      - git-installer
+
+  git-installer:
+    image: almalinux:latest
+    container_name: git-installer
+    volumes:
+      - ./StockPriceUpDownAI:/host/StockPriceUpDownAI
+    working_dir: /host/StockPriceUpDownAI
+    command: >
+      bash -c "
+      dnf install -y git &&
+      git clone https://github.com/houmaiwakiri/StockPriceUpDownAI.git /host/StockPriceUpDownAI"
