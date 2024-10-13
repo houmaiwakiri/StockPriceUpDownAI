@@ -36,19 +36,14 @@ LATEST_VERSION=$(curl -s https://api.github.com/repos/docker/compose/releases/la
 curl -SL "https://github.com/docker/compose/releases/download/${LATEST_VERSION}/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod 750 /usr/local/bin/docker-compose
 sudo systemctl start docker
+sudo systemctl enable docker
 sudo usermod -aG docker $(whoami)
 ```
 
-Docker が正常に動作しているか確認
+ソース
 
 ```bash
-docker --version
-```
-
-Docker を自動起動する設定
-
-```bash
-sudo systemctl enable docker
+git clone https://github.com/houmaiwakiri/StockPriceUpDownAI.git
 ```
 
 ### 2. Docker コンテナの構築
@@ -60,4 +55,4 @@ cd StockPriceUpDownAI
 docker-compose up --build
 ```
 
-実行終了後、ホスト側のoutput配下にjapan_stock_data_yyyymmdd.csvが生成される。
+実行終了後、ホスト側のStockPriceUpDownAI/output配下にjapan_stock_data_yyyymmdd.csvが生成される。

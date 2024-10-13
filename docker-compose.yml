@@ -7,8 +7,8 @@ services:
     container_name: stock-price-updown-ai
     working_dir: /app/stock-price-updown-ai
     volumes:
-      - ./StockPriceUpDownAI:/app/stock-price-updown-ai
-      - ./StockPriceUpDownAI/output:/app/stock-price-updown-ai/output
+      - ../StockPriceUpDownAI:/app/stock-price-updown-ai
+      - ../StockPriceUpDownAI/output:/app/stock-price-updown-ai/output
     environment:
       PYTHONUNBUFFERED: 1
     command: python main.py
