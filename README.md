@@ -40,13 +40,13 @@ sudo systemctl enable docker
 sudo usermod -aG docker $(whoami)
 ```
 
-ソース
+### 2. ソース
 
 ```bash
 git clone https://github.com/houmaiwakiri/StockPriceUpDownAI.git
 ```
 
-### 2. Docker コンテナの構築
+### 3. Docker コンテナの構築
 
 Docker イメージのビルド(main.py が実行される)
 
