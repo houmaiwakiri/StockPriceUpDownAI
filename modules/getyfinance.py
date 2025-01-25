@@ -37,17 +37,21 @@ def fetch_stock_data(ticker_list):
   all_stock_data = []
   for ticker in ticker_list['Symbol']:
     try:
-      # 銘柄コードに ".T" を追加（日本の株式市場を示す）
+    # 銘柄コードに ".T" を追加（日本の株式市場を示す）
       ticker_with_t = str(ticker) + ".T"
 
       # 1年間のデータを取得（1日単位）
       stock_data = yf.Ticker(ticker_with_t).history(period='1d')  # 1日分のデータを取得
+
+      # 必要なカラムだけを残す
+      stock_data = stock_data[['Open', 'High', 'Low', 'Close', 'Volume']]
+
       stock_data['Ticker'] = ticker_with_t  # 銘柄コードをデータに追加
       all_stock_data.append(stock_data)
       print(f"Fetched data for {ticker_with_t}")
 
       # Yahoo Financeへの負荷軽減
-      time.sleep(0.1) 
+      time.sleep(0.1)
 
     except Exception as e:
       print(f"Failed to fetch data for {ticker_with_t}: {e}")
